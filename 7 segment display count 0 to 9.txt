@@ -1,0 +1,48 @@
+/*
+Full Details
+http://www.instructables.com/id/7-Segment-Display-Counter/
+*/
+// Segment-Display-Counter 0 to 9
+
+
+byte pins[8] = {2,3,4,6,7,8,9}; // The digital pins that we are using
+int duration = 1000; // The delay between the number changes
+ 
+byte num0 = 0x3F;
+byte num1 = 0x0C;
+byte num2 = 0x5B;
+byte num3 = 0x5E;
+byte num4 = 0x6C;
+byte num5 = 0x76;
+byte num6 = 0x77;
+byte num7 = 0x1C;
+byte num8 = 0x7F;
+byte num9 = 0x7E;
+ 
+void printN(byte _digit) { // The function that prints the numbers
+  for (int i = 0; i < 8; i++) {
+    digitalWrite(pins[i], bitRead(_digit, i ));
+    //Serial.println(pins[i] + ' w ' + bitRead(_digit, i ));
+  }    
+}
+ 
+void setup() { // Our setup function, in which we initialise the above-mentioned pins
+  Serial.begin(9600);
+  for(int i = 0; i <= 9; i++) {
+    pinMode(pins[i], OUTPUT);
+    //Serial.println(pins[i]);
+  }
+}
+ 
+void loop() {
+  printN(num0); delay(duration); // Basicly, what this line does: print 0 on the display then wait 1 second
+  printN(num1); delay(duration);
+  printN(num2); delay(duration);
+  printN(num3); delay(duration);
+  printN(num4); delay(duration);
+  printN(num5); delay(duration);
+  printN(num6); delay(duration);
+  printN(num7); delay(duration);
+  printN(num8); delay(duration);
+  printN(num9); delay(duration);
+}

@@ -1,0 +1,74 @@
+#include <Servo.h>
+Servo myservo;
+Servo servo_6;
+int pos = 0;
+
+void setup()
+{
+  //pinMode(4, INPUT);
+  pinMode(10, OUTPUT); // pin 1
+  servo_6.attach(6, 500, 2500);
+
+  pinMode(9, OUTPUT);// pin 2
+  pinMode(6, INPUT);
+  pinMode(8, OUTPUT);// pin 3
+  pinMode(7, OUTPUT); // pin 4
+}
+
+void loop()
+{
+ if (digitalRead(6) == 0) {
+    digitalWrite(10, HIGH);
+   for (pos = 0; pos <=90; pos += 1) { 
+    // in steps of 1 degree
+    myservo.write(pos);              
+    delay(15);                       
+   } 
+  }
+  servo_6.write(0);
+  delay(2000); // Wait for 2000 millisecond(s)
+  digitalWrite(10, LOW);
+
+  if (digitalRead(6) == 0) {
+   digitalWrite(9, HIGH);
+    
+   for (pos = 91; pos <=180; pos += 1) { 
+    // in steps of 1 degree
+    myservo.write(pos);              
+    delay(15);                       
+   } 
+ }
+  servo_6.write(90);
+  delay(2000); // Wait for 2000 millisecond(s)
+  digitalWrite(10, LOW);
+
+  if (digitalRead(6) == 0) {
+    digitalWrite(8, HIGH);
+    for (pos = 181; pos <=270; pos += 1) { 
+    // in steps of 1 degree
+    myservo.write(pos);              
+    delay(15);                       
+   } 
+  }
+  servo_6.write(90);
+  delay(2000); // Wait for 2000 millisecond(s)
+  digitalWrite(10, LOW);
+  digitalWrite(9, LOW);
+  
+  if (digitalRead(6) == 0) {
+    digitalWrite(7, HIGH);
+    for (pos = 271; pos <=380; pos += 1) { 
+    // in steps of 1 degree
+    myservo.write(pos);              
+    delay(15);                       
+   } 
+  }
+  servo_6.write(90);
+  delay(2000); // Wait for 2000 millisecond(s)
+  digitalWrite(10, LOW);
+  digitalWrite(9, LOW);
+  digitalWrite(8, LOW);
+               
+ 
+               
+}

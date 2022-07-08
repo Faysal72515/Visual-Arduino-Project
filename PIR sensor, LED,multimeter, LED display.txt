@@ -1,0 +1,77 @@
+//PIR motion sensor, LED light & LCD Display-V1
+// include the library code:
+#include <LiquidCrystal.h>
+
+//code for motion detector circuit
+int ledPin= 13;
+int PIRPin= 8;
+int pirState = LOW;
+int value = 0;
+
+// initialize the library with the numbers of the interface pins
+LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
+
+// Include the message to show in msg
+String msg = "PIR motion sensor, LED light & LCD Display";
+//String msg = "P. Manning is a great player";
+
+void setup() {
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  // Print a initial message to the LCD.
+  lcd.print("hello, world!");
+  delay(2000);
+  
+  pinMode(ledPin, OUTPUT);
+  pinMode(PIRPin, INPUT);
+  Serial.begin(9600);
+  
+}
+
+void loop() {
+
+  value= digitalRead(PIRPin);
+
+  if (value == HIGH)
+  {
+    digitalWrite(ledPin, HIGH);  // turn LED ON
+    if (pirState == LOW) {
+      // we have just turned on
+      Serial.println("Motion detected!");
+      // We only want to print on the output change, not state
+      pirState = HIGH;
+    }
+  }
+  else
+  {
+    digitalWrite(ledPin, LOW);
+    if (pirState == HIGH){
+      // we have just turned of
+      Serial.println("Motion ended!");
+      // We only want to print on the output change, not state
+      pirState = LOW;
+    }
+  }
+if (msg.length()>32){
+  	for (int i = 0; i <= msg.length()+15; i++) {
+  	  lcd.clear();
+      if (i < 16) {
+      	lcd.setCursor(16-i, 0);
+      	lcd.print(msg.substring(0, i));
+      }
+      else {lcd.print(msg.substring(i-15, i+1));}
+  	  delay(100);
+  	}
+  }
+  else{
+    lcd.setCursor(0, 0);
+    lcd.print(msg.substring(0, 16));
+    lcd.setCursor(0, 1);
+    lcd.print(msg.substring(16, 32));
+  }
+  
+}
+
+
+
+

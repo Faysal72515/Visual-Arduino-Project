@@ -1,0 +1,103 @@
+// Global variables
+int GREEN = 4;
+int BLUE = 2;
+int RED = 3;
+int DELAY_GREEN = 200;
+int DELAY_BLUE = 200;
+int DELAY_RED = 200;
+
+
+// basic functions
+void setup()
+{
+  pinMode(GREEN, OUTPUT);
+  pinMode(RED, OUTPUT);
+  pinMode(BLUE, OUTPUT);
+}
+
+void loop()
+{
+  green_light();
+  delay(DELAY_GREEN);
+  red_light();
+  delay(DELAY_RED);
+  blue_light();
+  delay(DELAY_BLUE);
+}
+
+void green_light()
+{
+  digitalWrite(GREEN, HIGH);
+  digitalWrite(RED, LOW);
+  digitalWrite(BLUE, LOW);
+}
+
+void blue_light()
+{
+  digitalWrite(GREEN, LOW);
+  digitalWrite(RED, LOW);
+  digitalWrite(BLUE, HIGH);
+}
+
+void red_light()
+{
+  digitalWrite(GREEN, LOW);
+  digitalWrite(RED, HIGH);
+  digitalWrite(BLUE, LOW);
+}
+
+
+#############################################################################
+
+int timer = 100;           // The higher the number, the slower the timing.
+
+void setup() {
+
+  // use a for loop to initialize each pin as an output:
+
+  for (int thisPin = 2; thisPin < 8; thisPin++) {
+
+    pinMode(thisPin, OUTPUT);
+
+  }
+}
+
+void loop() {
+
+  // loop from the lowest pin to the highest:
+
+  for (int thisPin = 2; thisPin < 8; thisPin++) {
+
+    // turn the pin on:
+
+    digitalWrite(thisPin, HIGH);
+
+    delay(timer);
+
+    // turn the pin off:
+
+    digitalWrite(thisPin, LOW);
+    delay(timer);
+
+  }
+
+  // loop from the highest pin to the lowest:
+
+  for (int thisPin = 7; thisPin >= 2; thisPin--) {
+
+    // turn the pin on:
+
+    digitalWrite(thisPin, HIGH);
+
+    delay(timer);
+
+    // turn the pin off:
+
+    digitalWrite(thisPin, LOW);
+    delay(timer);
+
+  }
+}
+
+
+

@@ -1,0 +1,65 @@
+#include <Servo.h>
+const int pingPin = 4;
+const int servoPin = 2;
+Servo servoMotor;
+void setup()
+{
+  Serial.begin(9600);
+  servoMotor.attach(servoPin);
+}
+
+void loop()
+{
+  long duration, cm;
+  
+  pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(pingPin, LOW);
+  
+  pinMode(pingPin, INPUT);
+  duration = pulseIn(pingPin, HIGH);
+
+  // convert the time into a distance
+  cm = microsecondsToCentimeters(duration);
+  if(cm <=25){
+  	servoMotor.write(0);
+    Serial.println("Servo motor moves 0 degree !");
+  }
+  else if(cm <= 50){
+  	servoMotor.write(30);
+    Serial.println("Servo motor moves 30 !");
+  }
+  else if(cm <= 100){
+  	servoMotor.write(50);
+    Serial.println("Servo motor moves 50 !");
+  }
+  else if(cm <= 150){
+  	servoMotor.write(70);
+    Serial.println("Servo motor moves 70 !");
+  }
+  else if(cm <= 170){
+  	servoMotor.write(100);
+    Serial.println("Servo motor moves 100 !");
+  }
+  else if(cm <= 200){
+  	servoMotor.write(130);
+    Serial.println("Servo motor moves 130 !");
+  }
+  else if(cm <= 250){
+  	servoMotor.write(150);
+    Serial.println("Servo motor moves 150!");
+  }
+  else if(cm > 250){
+  	servoMotor.write(180);
+    Serial.println("Servo motor moves 180 !");
+  }
+  delay(1000);
+}
+
+
+long microsecondsToCentimeters(long microseconds) {
+  return microseconds / 29 / 2;
+}

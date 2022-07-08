@@ -1,0 +1,135 @@
+//mini project pir sensor and servo motor
+// include the library code:
+#include <LiquidCrystal.h>
+#include <Servo.h>
+int pingPin = 11;
+int servoPin = 12;
+Servo servoMotor;
+//code for motion detector circuit
+int ledPin= 13;
+int PIRPin= 8;
+int pirState = LOW;
+int value = 0;
+
+// initialize the library with the numbers of the interface pins
+LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
+
+// Include the message to show in msg
+String msg = "PIR motion sensor, LED light & LCD Display";
+//String msg = "P. Manning is a great player";
+
+void setup() {
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  // Print a initial message to the LCD.
+  lcd.print("hello, world!");
+  delay(2000);
+  
+  pinMode(ledPin, OUTPUT);
+  pinMode(PIRPin, INPUT);
+  Serial.begin(9600);
+  servoMotor.attach(servoPin);
+  
+}
+
+void loop() {
+
+  value= digitalRead(PIRPin);
+
+  if (value == HIGH)
+  {
+    digitalWrite(ledPin, HIGH);  // turn LED ON
+    if (pirState == LOW) {
+      // we have just turned on
+      Serial.println("Motion detected!");
+      // We only want to print on the output change, not state
+      pirState = HIGH;
+    }
+  }
+  else
+  {
+    digitalWrite(ledPin, LOW);
+    if (pirState == HIGH){
+      // we have just turned of
+      Serial.println("Motion ended!");
+      // We only want to print on the output change, not state
+      pirState = LOW;
+    }
+  }
+if (msg.length()>32){
+  	for (int i = 0; i <= msg.length()+15; i++) {
+  	  lcd.clear();
+      if (i < 16) {
+      	lcd.setCursor(16-i, 0);
+      	lcd.print(msg.substring(0, i));
+      }
+      else {lcd.print(msg.substring(i-15, i+1));}
+  	  delay(100);
+  	}
+  }
+  else{
+    lcd.setCursor(0, 0);
+    lcd.print(msg.substring(0, 16));
+    lcd.setCursor(0, 1);
+    lcd.print(msg.substring(16, 32));
+  }
+  
+  
+  // servo motor part..
+  long duration, cm;
+  
+  pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(pingPin, LOW);
+  
+  pinMode(pingPin, INPUT);
+  duration = pulseIn(pingPin, HIGH);
+
+  // convert the time into a distance
+  cm = microsecondsToCentimeters(duration);
+  if(cm <=25){
+  	servoMotor.write(0);
+    Serial.println("Servo motor moves 0 degree !");
+  }
+  else if(cm <= 50){
+  	servoMotor.write(30);
+    Serial.println("Servo motor moves 30 !");
+  }
+  else if(cm <= 100){
+  	servoMotor.write(50);
+    Serial.println("Servo motor moves 50 !");
+  }
+  else if(cm <= 150){
+  	servoMotor.write(70);
+    Serial.println("Servo motor moves 70 !");
+  }
+  else if(cm <= 170){
+  	servoMotor.write(100);
+    Serial.println("Servo motor moves 100 !");
+  }
+  else if(cm <= 200){
+  	servoMotor.write(130);
+    Serial.println("Servo motor moves 130 !");
+  }
+  else if(cm <= 250){
+  	servoMotor.write(150);
+    Serial.println("Servo motor moves 150!");
+  }
+  else if(cm > 250){
+  	servoMotor.write(180);
+    Serial.println("Servo motor moves 180 !");
+  }
+  delay(1000);
+  
+}
+
+long microsecondsToCentimeters(long microseconds) {
+  return microseconds / 29 / 2;
+}
+
+
+
+
